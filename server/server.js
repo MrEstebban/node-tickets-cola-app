@@ -1,17 +1,22 @@
 const express = require('express');
-
 const path = require('path');
+const socketIO = require('socket.io');
+const http = require('http');
 
 const app = express();
+let server = http.createServer(app);
 
 const publicPath = path.resolve(__dirname, '../public');
 const port = process.env.PORT || 3000;
 
 app.use(express.static(publicPath));
 
+// IO = mantiene conexión directa con el backend
+//let io = socketIO(server);
+module.exports.io = socketIO(server);
+require('./sockets/sockets.js');
 
-
-app.listen(port, (err) => {
+server.listen(port, (err) => {
 
     if (err) throw new Error(err);
 
